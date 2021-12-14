@@ -3,7 +3,7 @@
 Check it out at [https://jacobsweeten.github.io/4-Bit-Computer/](https://jacobsweeten.github.io/4-Bit-Computer/)
 
 ## Example Code:
-The following code draws Sonic (Sort of):
+Draw Sonic (Sort of):
 ```
 movi A 0
 movi MB 15
@@ -40,10 +40,27 @@ addi A 1
 stoi A 15
 ```
 
+Draw all the colors to the screen:
+```
+movi MB 15
+movi A 0
+movi B 0
+movi C 15
+movi D 0
+sto A B
+addi A 1
+addi B 1
+subi C 1
+cmp C D
+bneqi 5
+sto A B
+```
+
 ## Instruction Set (So Far)
 - movi: Move immediate into register. Usage: `movi [Register] [Value]` Analog: `A = 1`
 - addi: Add immediate to register and store in register. Sets overflow flag if result is greater than 15. `addi [Register] [Value]` Analog: `A = A + 1`
 - stoi: Store immediate into memory at address in register. Usage: `stoi [Register] [Value]` Analog: `*A = 1`
+- sto: Store value in second register into memory at address in first register. Usage: `stoi [Register A] [Register B]` Analog: `*A = *B`
 - subi: Subtrack immediate from register and store in register. Sets underflow flag if result is less than 0. Usage: `subi [Register] [Value]` Analog: `A = A - 1`
 - muli: Multiply by immediate. Result is stored in HIGH:LOW. Usage: `muli [Register] [Value]`
 - add: Add two registers and store in first register. Sets overflow flag if result is greater than 15. Usage: `add [Register A] [Register B]` Analog: `A = A + B`

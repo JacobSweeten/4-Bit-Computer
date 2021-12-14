@@ -132,6 +132,10 @@ function Computer()
 				this.touchMemory(this.registers[instructionArr[1]], instructionArr[2]);
 				this.incrementPC();
 				break;
+			case "sto":
+				this.touchMemory(this.registers[instructionArr[1]], this.registers[instructionArr[2]]);
+				this.incrementPC();
+				break;
 			case "subi":
 				var res = this.registers[instructionArr[1]] - parseInt(instructionArr[2]);
 				if(res < 0)
