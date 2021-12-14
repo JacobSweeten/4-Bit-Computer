@@ -36,6 +36,9 @@ function Registers(){
 
 function Computer()
 {
+	this.fastMode = false;
+	var slowModeInterval;
+
 	this.instructions = [];
 
 	this.memory = [];
@@ -273,8 +276,31 @@ function Computer()
 		}
 	}
 
-	let thisComputer = this;
-	setInterval(() => {
-		thisComputer.tick();
-	}, (1 / speed) * 1000);
+	this.run = function()
+	{
+		if(this.fastMode)
+		{
+			if(this.slowModeInterval != undefined)
+			{
+				clearInterval(this.slowModeInterval);
+				this.slowModeInterval = undefined;
+			}
+
+			while(this.running)
+			{
+				this.tick();
+			}
+		}
+		else
+		{
+			if(this.slowModeInterval != undefined)
+			{
+				clearInterval(this.slowModeInterval);
+			}
+			let thisComputer = this;
+			this.slowModeInterval = setInterval(() => {
+				thisComputer.tick();
+			}, (1 / speed) * 1000);
+		}
+	}
 }

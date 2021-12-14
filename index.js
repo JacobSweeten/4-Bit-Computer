@@ -53,8 +53,11 @@ function run()
 {
 	computer.setRegister(PC, 0);
 	computer.running = false;
+	computer.fastMode = $("#fastMode").is(":checked");
+	console.log(computer.fastMode);
 	setInstructions();
 	computer.running = true;
+	computer.run();
 }
 
 function stop()
@@ -70,6 +73,7 @@ function step()
 function cont()
 {
 	computer.running = true;
+	computer.run();
 }
 
 function updateMemory()
