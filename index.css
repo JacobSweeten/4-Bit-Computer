@@ -26,6 +26,7 @@ div {
 #sideWrapper {
 	float: right;
 	width: 60%;
+	height: 600px;
 }
 
 #screenPanel {

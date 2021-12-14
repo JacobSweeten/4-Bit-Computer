@@ -46,7 +46,8 @@ function Computer()
 
 		this.memory.push(newBank);
 	}
-		
+	
+	this.breakPoints = [];
 
 	this.registers = new Registers();
 
@@ -116,10 +117,44 @@ function Computer()
 		}
 	}
 
+	this.step = function()
+	{
+		if(this.registers.PC > this.instructions.length - 1)
+		{
+			return;
+		}
+
+		var oldPC = this.registers.PC;
+
+		try
+		{
+			this.execute();
+		}
+		catch(e)
+		{
+			this.running = false;
+			setOutput(e);
+			return;
+		}
+
+		// If we didn't do a jump, increment PC by 1
+		if(this.registers.PC == oldPC)
+			this.setRegister(PC, this.registers.PC + 1);
+	}
+
 	this.tick = function()
 	{
 		if(!this.running)
 			return;
+		
+		for(var i = 0; i < this.breakPoints.length; i++)
+		{
+			if(this.registers.PC === this.breakPoints[i])
+			{
+				this.running = false;
+				return;
+			}
+		}
 
 		if(this.registers.PC > this.instructions.length - 1)
 		{

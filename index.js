@@ -62,6 +62,16 @@ function stop()
 	computer.running = false;
 }
 
+function step()
+{
+	computer.step();
+}
+
+function cont()
+{
+	computer.running = true;
+}
+
 function updateMemory()
 {
 	var bank = computer.memory[parseInt($("#memSelect").val())];
@@ -100,6 +110,16 @@ function updateStatus()
 	$("#FLAGSVal").text(computer.registers.FLAGS);
 }
 
+function updateBreakPoints()
+{
+	computer.breakPoints = [];
+	var breakPointArr = $("#breakPoints").val().split("\n");
+	for(var i = 0; i < breakPointArr.length; i++)
+	{
+		computer.breakPoints.push(parseInt(breakPointArr[i]));
+	}
+}
+
 function initElements()
 {
 	var screenPanelDim = screen.width * 0.3;
@@ -123,6 +143,7 @@ function initElements()
 		updateStatus();
 		updateScreen();
 		updateMemory();
+		updateBreakPoints();
 	}, 100);
 }
 
