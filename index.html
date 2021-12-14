@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>4-Bit Computer!</title>
+		<link rel="stylesheet" href="index.css" />
+		<script src="jquery-3.6.0.min.js"></script>
+		<script src="computer.js"></script>
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<div id="codePanelWrapper">
+			<textarea id="codePanel"></textarea>
+		</div>
+		<div id="sideWrapper">
+			<div id="statusPanel">
+				<table>
+					<tr>
+						<th>Register</th>
+						<th>Value</th>
+					</tr>
+					<tr>
+						<td>A</td>
+						<td id="AVal"></td>
+					</tr>
+					<tr>
+						<td>B</td>
+						<td id="BVal"></td>
+					</tr>
+					<tr>
+						<td>C</td>
+						<td id="CVal"></td>
+					</tr>
+					<tr>
+						<td>D</td>
+						<td id="DVal"></td>
+					</tr>
+					<tr>
+						<td>E</td>
+						<td id="EVal"></td>
+					</tr>
+					<tr>
+						<td>F</td>
+						<td id="FVal"></td>
+					</tr>
+					<tr>
+						<td>G</td>
+						<td id="GVal"></td>
+					</tr>
+					<tr>
+						<td>H</td>
+						<td id="HVal"></td>
+					</tr>
+					<tr>
+						<td>MB</td>
+						<td id="MBVal"></td>
+					</tr>
+					<tr>
+						<td>PC</td>
+						<td id="PCVal"></td>
+					</tr>
+					<tr>
+						<td>SP</td>
+						<td id="SPVal"></td>
+					</tr>
+					<tr>
+						<td>SB</td>
+						<td id="SBVal"></td>
+					</tr>
+					<tr>
+						<td>FLAGS</td>
+						<td id="FLAGSVal"></td>
+					</tr>
+				</table>
+			</div>
+			<div id="screenPanel"></div>
+		</div>
+		<button onclick="run()">Run!</button>
+		<button onclick="stop()">Stop!</button>
+		<div id="output"></div>
+		<select id="memSelect">
+			<option value="0">0</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="7">8</option>
+			<option value="8">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+		</select>
+		<div id="memory"></div>
+	</body>
+</html>
