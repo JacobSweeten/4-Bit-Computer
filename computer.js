@@ -8,6 +8,7 @@ const G = "G";
 const H = "H";
 const MB = "MB";
 const PC = "PC";
+const PC2 = "PC2";
 const SP = "SP";
 const SB = "SB";
 const FLAGS = "FLAGS";
@@ -27,6 +28,7 @@ function Registers(){
 	this.H = 0;
 	this.MB = 0;		// Memory Bank
 	this.PC = 0;		// Program Counter
+	this.PC2 = 0;
 	this.SP = 0;		// Stack Pointer
 	this.SB = 0;		// Stack Base
 	this.FLAGS = 0;		// FLAGS (0 = Overflow, 1 = Underflow, 2 = EQ)
@@ -64,7 +66,7 @@ function Computer()
 		if(val instanceof String || typeof(val) === "string")
 			val = parseInt(val);
 		
-		if((val > 0xF || val < 0x0) && reg != PC)
+		if((val > 0xF || val < 0x0) && (reg != PC && reg != PC2))
 			throw new Error("Value out of range.");
 		
 		this.registers[reg] = val;
@@ -219,6 +221,29 @@ function Computer()
 					this.setRegister(PC, instructionArr[1]);
 				else
 					this.incrementPC();
+				break;
+			case "addpc2i":
+				this.setRegister(PC2, this.registers.PC2 + parseInt(instructionArr[1]));
+				this.incrementPC();
+				break;
+			case "addpc2":
+				this.setRegister(PC2, this.registers.PC2 + this.registers[instructionArr[1]]);
+				this.incrementPC();
+				break;
+			case "loadpc2u":
+				this.setRegister(PC2, (this.readMemory(this.registers[instructionArr[1]])) << 4);
+				this.incrementPC();
+				break;
+			case "stopc2u":
+				this.touchMemory(this.regsters[instructionArr[1]], (PC2 >> 4));
+				this.incrementPC();
+				break;
+			case "stopc2l":
+				this.touchMemory(this.regsters[instructionArr[1]], (PC2 & 0b1111));
+				this.incrementPC();
+				break;
+			case "swappc":
+				this.setRegister(PC, this.registers.PC2);
 				break;
 			default:
 				throw new Error("Bad instruction!");

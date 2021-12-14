@@ -52,9 +52,68 @@ bneqi 3
 sto A A
 ```
 
+Call Functions:
+```
+# Establish Stack
+movi MB 0
+movi SB 15
+movi SP 15
+
+# Vars
+movi A 7
+
+# Get ready to call function
+# Push return address
+stoi SP 9
+subi SP 1
+stoi SP 0
+subi SP 1
+
+# Branch to function
+bi 11
+
+# After return
+movi A 9
+
+# Go to end
+bi 36
+
+# Function
+# Establish stack
+sto SP SB
+subi SP 1
+mov SB SP
+
+# Push A
+sto SP A
+subi SP 1
+
+# Do stuff
+movi A 5
+
+# Return
+# Pop A
+addi SP 1
+load SP A
+
+# Pop SB
+addi SP 1
+load SP SB
+
+# Get return address
+addi SP 1
+loadpc2u SP
+addi SP 1
+load SP B
+addpc2 B
+
+# Ret
+swappc
+```
+
 ## Instruction Set (So Far)
 - movi: Move immediate into register. Usage: `movi [Register] [Value]` Analog: `A = 1`
-- movi: Move value in second register into first register. Usage: `mov [Register A] [Register B]` Analog: `A = B`
+- mov: Move value in second register into first register. Usage: `mov [Register A] [Register B]` Analog: `A = B`
 - addi: Add immediate to register and store in register. Sets overflow flag if result is greater than 15. `addi [Register] [Value]` Analog: `A = A + 1`
 - stoi: Store immediate into memory at address in register. Usage: `stoi [Register] [Value]` Analog: `*A = 1`
 - sto: Store value in second register into memory at address in first register. Usage: `stoi [Register A] [Register B]` Analog: `*A = B`
@@ -70,6 +129,12 @@ sto A A
 - beq: Jump to code at address in register if EQ flag is set. Usage: `beqi [Register]`
 - bneqi: Jump to code at immediate address if EQ flag is not set. Usage: `bneqi [Value]`
 - bneq: Jump to code at address in register if EQ flag is not set. Usage: `bneqi [Register]`
+- addpc2i: Add immediate to PC2. Usage: `addpc2i [Value]`
+- addpc2: Add value in register to PC2. Usage: `addpc2 [Register]`
+- loadpc2u: Load upper 4 bits of PC2 from address in register. Usage: `loadpc2u [Register]`
+- stopc2u: Store upper 4 bits of PC2 into address in register. Usage: `stopc2u [Register]`
+- stopc2l: Store lower 4 bits of PC2 into address in register. Usage: `stopc2l [Register]`
+- swappc: Move PC2 into PC. Usage: `swappc`
 
 ## Memory
 The computer has 16 memory banks (0-15), selected by the MB register. Each bank holds 16 4-bit words (8 bytes). There is a total of 128 bytes in memory.

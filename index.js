@@ -46,7 +46,14 @@ function setOutput(str)
 
 function setInstructions()
 {
-	computer.instructions = $("#codePanel").val().split("\n");
+	var temp = $("#codePanel").val().split("\n");
+	computer.instructions = [];
+	for(var i = 0; i < temp.length; i++)
+	{
+		if(temp[i].length != 0 && !temp[i].startsWith("#") && !/^\s+$/.test(temp[i]))
+			computer.instructions.push(temp[i]);
+	}
+	
 }
 
 function run()
@@ -82,7 +89,7 @@ function updateMemory()
 	var text = "";
 	for(var i = 0; i < 16; i++)
 	{
-		text += "0x" + i.toString(16).toUpperCase() + ": " + bank[i] + "<br />";
+		text += "0x" + i.toString(16).toUpperCase() + ": " + bank[i].toString(2).padStart(4, 0) + "<br />";
 	}
 
 	$("#memory").html(text);
@@ -99,21 +106,22 @@ function updateScreen()
 
 function updateStatus()
 {
-	$("#AVal").text(computer.registers.A);
-	$("#BVal").text(computer.registers.B);
-	$("#CVal").text(computer.registers.C);
-	$("#DVal").text(computer.registers.D);
-	$("#EVal").text(computer.registers.E);
-	$("#FVal").text(computer.registers.F);
-	$("#GVal").text(computer.registers.G);
-	$("#HVal").text(computer.registers.H);
-	$("#MBVal").text(computer.registers.MB);
-	$("#PCVal").text(computer.registers.PC);
-	$("#SPVal").text(computer.registers.SP);
-	$("#SBVal").text(computer.registers.SB);
-	$("#FLAGSVal").text(computer.registers.FLAGS);
-	$("#HIGHVal").text(computer.registers.HIGH);
-	$("#LOWVal").text(computer.registers.LOW);
+	$("#AVal").text(computer.registers.A.toString(2).padStart(4, 0));
+	$("#BVal").text(computer.registers.B.toString(2).padStart(4, 0));
+	$("#CVal").text(computer.registers.C.toString(2).padStart(4, 0));
+	$("#DVal").text(computer.registers.D.toString(2).padStart(4, 0));
+	$("#EVal").text(computer.registers.E.toString(2).padStart(4, 0));
+	$("#FVal").text(computer.registers.F.toString(2).padStart(4, 0));
+	$("#GVal").text(computer.registers.G.toString(2).padStart(4, 0));
+	$("#HVal").text(computer.registers.H.toString(2).padStart(4, 0));
+	$("#MBVal").text(computer.registers.MB.toString(2).padStart(4, 0));
+	$("#PCVal").text(computer.registers.PC.toString(2).padStart(8, 0));
+	$("#PC2Val").text(computer.registers.PC2.toString(2).padStart(8, 0));
+	$("#SPVal").text(computer.registers.SP.toString(2).padStart(4, 0));
+	$("#SBVal").text(computer.registers.SB.toString(2).padStart(4, 0));
+	$("#FLAGSVal").text(computer.registers.FLAGS.toString(2).padStart(4, 0));
+	$("#HIGHVal").text(computer.registers.HIGH.toString(2).padStart(4, 0));
+	$("#LOWVal").text(computer.registers.LOW.toString(2).padStart(4, 0));
 }
 
 function updateBreakPoints()
