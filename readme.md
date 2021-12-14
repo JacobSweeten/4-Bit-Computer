@@ -49,8 +49,13 @@ stoi A 15
 - add: Add two registers and store in first register. Sets overflow flag if result is greater than 15. Usage: `add [Register A] [Register B]` Analog: `A = A + B`
 - sub: Subtract two registers and store in first register. Sets underflow flag if result is less than 0. Usage: `sub [Register A] [Register B]` Analog: `A = A - B`
 - load: Load value from memory at the address in first register and store in second register. Usage: `load [Register A] [Register B]` Analog: `B = *A`
-- branch: Jump to code at address in register. Usage: `branch [Register]` Analog: `goto a`
-- branchi: Jump to code at immediate address. Usage: `branchi [Value]`
+- b: Jump to code at address in register. Usage: `b [Register]` Analog: `goto a`
+- bi: Jump to code at immediate address. Usage: `bi [Value]`
+- cmp: Compare two registers and set the EQ flag if they are equal. Usage: `cmp [Register A] [Register B]`
+- beqi: Jump to code at immediate address if EQ flag is set. Usage: `beqi [Value]`
+- beq: Jump to code at address in register if EQ flag is set. Usage: `beqi [Register]`
+- bneqi: Jump to code at immediate address if EQ flag is not set. Usage: `bneqi [Value]`
+- bneq: Jump to code at address in register if EQ flag is not set. Usage: `bneqi [Register]`
 
 ## Memory
 The computer has 16 memory banks (0-15), selected by the MB register. Each bank holds 16 4-bit words (8 bytes). There is a total of 128 bytes in memory.

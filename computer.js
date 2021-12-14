@@ -29,7 +29,7 @@ function Registers(){
 	this.PC = 0;		// Program Counter
 	this.SP = 0;		// Stack Pointer
 	this.SB = 0;		// Stack Base
-	this.FLAGS = 0;		// FLAGS (0 = Overflow, 1 = Underflow)
+	this.FLAGS = 0;		// FLAGS (0 = Overflow, 1 = Underflow, 2 = EQ)
 	this.HIGH = 0;
 	this.LOW = 0;
 }
@@ -82,14 +82,21 @@ function Computer()
 		return bank[addr];
 	}
 
+	this.incrementPC = function()
+	{
+		this.setRegister(PC, this.registers.PC + 1);
+	}
+
 	this.execute = function()
 	{
 		var instruction = this.instructions[this.registers.PC];
+		//console.log("Executing instruction " + instruction);
 		var instructionArr = instruction.split(/\s/);
 		switch(instructionArr[0])
 		{
 			case "movi":
 				this.setRegister(instructionArr[1], parseInt(instructionArr[2]));
+				this.incrementPC();
 				break;
 			case "add":
 				var sum = this.registers[instructionArr[1]] + this.registers[instructionArr[2]];
@@ -104,6 +111,7 @@ function Computer()
 				}
 
 				this.setRegister(instructionArr[1], sum);
+				this.incrementPC();
 				break;
 			case "addi":
 				var sum = this.registers[instructionArr[1]] + parseInt(instructionArr[2]);
@@ -118,9 +126,11 @@ function Computer()
 				}
 
 				this.setRegister(instructionArr[1], sum);
+				this.incrementPC();
 				break;
 			case "stoi":
 				this.touchMemory(this.registers[instructionArr[1]], instructionArr[2]);
+				this.incrementPC();
 				break;
 			case "subi":
 				var res = this.registers[instructionArr[1]] - parseInt(instructionArr[2]);
@@ -135,11 +145,13 @@ function Computer()
 				}
 
 				this.setRegister(instructionArr[1], res);
+				this.incrementPC();
 				break;
 			case "muli":
 				var res = this.registers[instructionArr[1]] * parseInt(instructionArr[2]);
 				this.setRegister(HIGH, res >> 4);
 				this.setRegister(LOW, res & 0b1111);
+				this.incrementPC();
 				break;
 			case "sub":
 				var res = this.registers[instructionArr[1]] - this.registers[instructionArr[2]];
@@ -154,15 +166,48 @@ function Computer()
 				}
 
 				this.setRegister(instructionArr[1], res);
+				this.incrementPC();
 				break;
 			case "load":
-				this.setRegister(instructionArr[2], this.readMemory(this.registers[instructionArr[1]]))
+				this.setRegister(instructionArr[2], this.readMemory(this.registers[instructionArr[1]]));
+				this.incrementPC();
 				break;
-			case "branch":
+			case "b":
 				this.setRegister(PC, this.registers[instructionArr[1]]);
 				break;
-			case "branchi":
+			case "bi":
 				this.setRegister(PC, instructionArr[1]);
+				break;
+			case "cmp":
+				if(this.registers[instructionArr[1]] === this.registers[instructionArr[2]])
+					this.registers.FLAGS = this.registers.FLAGS | 0b0010;
+				else
+					this.registers.FLAGS = this.registers.FLAGS & 0b1101;
+				this.incrementPC();
+				break;
+			case "beq":
+				if((this.registers.FLAGS & 0b0010) === 2)
+					this.setRegister(PC, this.registers[instructionArr[1]]);
+				else
+					this.incrementPC();
+				break;
+			case "beqi":
+				if((this.registers.FLAGS & 0b0010) === 2)
+					this.setRegister(PC, instructionArr[1]);
+				else
+					this.incrementPC();
+				break;
+			case "bneq":
+				if((this.registers.FLAGS & 0b0010) != 2)
+					this.setRegister(PC, this.registers[instructionArr[1]]);
+				else
+					this.incrementPC();
+				break;
+			case "bneqi":
+				if((this.registers.FLAGS & 0b0010) != 2)
+					this.setRegister(PC, instructionArr[1]);
+				else
+					this.incrementPC();
 				break;
 			default:
 				throw new Error("Bad instruction!");
@@ -176,8 +221,6 @@ function Computer()
 			return;
 		}
 
-		var oldPC = this.registers.PC;
-
 		try
 		{
 			this.execute();
@@ -188,10 +231,6 @@ function Computer()
 			setOutput(e);
 			return;
 		}
-
-		// If we didn't do a jump, increment PC by 1
-		if(this.registers.PC == oldPC)
-			this.setRegister(PC, this.registers.PC + 1);
 	}
 
 	this.tick = function()
@@ -214,8 +253,6 @@ function Computer()
 			return;
 		}
 
-		var oldPC = this.registers.PC;
-
 		try
 		{
 			this.execute();
@@ -226,10 +263,6 @@ function Computer()
 			setOutput(e);
 			return;
 		}
-
-		// If we didn't do a jump, increment PC by 1
-		if(this.registers.PC == oldPC)
-			this.setRegister(PC, this.registers.PC + 1);
 	}
 
 	let thisComputer = this;
