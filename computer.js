@@ -11,6 +11,8 @@ const PC = "PC";
 const SP = "SP";
 const SB = "SB";
 const FLAGS = "FLAGS";
+const HIGH = "HIGH";
+const LOW = "LOW";
 
 const speed = 1000000;	// 1 MHz
 
@@ -27,7 +29,9 @@ function Registers(){
 	this.PC = 0;		// Program Counter
 	this.SP = 0;		// Stack Pointer
 	this.SB = 0;		// Stack Base
-	this.FLAGS = 0;		// FLAGS (0 = Overflow)
+	this.FLAGS = 0;		// FLAGS (0 = Overflow, 1 = Underflow)
+	this.HIGH = 0;
+	this.LOW = 0;
 }
 
 function Computer()
@@ -72,6 +76,12 @@ function Computer()
 		bank[addr] = val;
 	}
 
+	this.readMemory = function(addr)
+	{
+		var bank = this.memory[this.registers.MB];
+		return bank[addr];
+	}
+
 	this.execute = function()
 	{
 		var instruction = this.instructions[this.registers.PC];
@@ -111,6 +121,48 @@ function Computer()
 				break;
 			case "stoi":
 				this.touchMemory(this.registers[instructionArr[1]], instructionArr[2]);
+				break;
+			case "subi":
+				var res = this.registers[instructionArr[1]] - parseInt(instructionArr[2]);
+				if(res < 0)
+				{
+					this.registers.FLAGS = this.registers.FLAGS | 0b0100;
+					res = 0;
+				}
+				else
+				{
+					this.registers.FLAGS = this.registers.FLAGS & 0b1011;
+				}
+
+				this.setRegister(instructionArr[1], res);
+				break;
+			case "muli":
+				var res = this.registers[instructionArr[1]] * parseInt(instructionArr[2]);
+				this.setRegister(HIGH, res >> 4);
+				this.setRegister(LOW, res & 0b1111);
+				break;
+			case "sub":
+				var res = this.registers[instructionArr[1]] - this.registers[instructionArr[2]];
+				if(res < 0)
+				{
+					this.registers.FLAGS = this.registers.FLAGS | 0b0100;
+					res = 0;
+				}
+				else
+				{
+					this.registers.FLAGS = this.registers.FLAGS & 0b1011;
+				}
+
+				this.setRegister(instructionArr[1], res);
+				break;
+			case "load":
+				this.setRegister(instructionArr[2], this.readMemory(this.registers[instructionArr[1]]))
+				break;
+			case "branch":
+				this.setRegister(PC, this.registers[instructionArr[1]]);
+				break;
+			case "branchi":
+				this.setRegister(PC, instructionArr[1]);
 				break;
 			default:
 				throw new Error("Bad instruction!");

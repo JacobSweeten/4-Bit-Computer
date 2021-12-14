@@ -42,8 +42,15 @@ stoi A 15
 
 ## Instruction Set (So Far)
 - movi: Move immediate into register. Usage: `movi [Register] [Value]` Analog: `A = 1`
-- addi: Add immediate to register and store in register. `addi [Register] [Value]` Analog: `A = A + 1`
+- addi: Add immediate to register and store in register. Sets overflow flag if result is greater than 15. `addi [Register] [Value]` Analog: `A = A + 1`
 - stoi: Store immediate into memory at address in register. Usage: `stoi [Register] [Value]` Analog: `*A = 1`
+- subi: Subtrack immediate from register and store in register. Sets underflow flag if result is less than 0. Usage: `subi [Register] [Value]` Analog: `A = A - 1`
+- muli: Multiply by immediate. Result is stored in HIGH:LOW. Usage: `muli [Register] [Value]`
+- add: Add two registers and store in first register. Sets overflow flag if result is greater than 15. Usage: `add [Register A] [Register B]` Analog: `A = A + B`
+- sub: Subtract two registers and store in first register. Sets underflow flag if result is less than 0. Usage: `sub [Register A] [Register B]` Analog: `A = A - B`
+- load: Load value from memory at the address in first register and store in second register. Usage: `load [Register A] [Register B]` Analog: `B = *A`
+- branch: Jump to code at address in register. Usage: `branch [Register]` Analog: `goto a`
+- branchi: Jump to code at immediate address. Usage: `branchi [Value]`
 
 ## Memory
 The computer has 16 memory banks (0-15), selected by the MB register. Each bank holds 16 4-bit words (8 bytes). There is a total of 128 bytes in memory.

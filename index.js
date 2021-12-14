@@ -108,6 +108,8 @@ function updateStatus()
 	$("#SPVal").text(computer.registers.SP);
 	$("#SBVal").text(computer.registers.SB);
 	$("#FLAGSVal").text(computer.registers.FLAGS);
+	$("#HIGHVal").text(computer.registers.HIGH);
+	$("#LOWVal").text(computer.registers.LOW);
 }
 
 function updateBreakPoints()
