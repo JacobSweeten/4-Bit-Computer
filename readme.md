@@ -58,6 +58,7 @@ sto A B
 
 ## Instruction Set (So Far)
 - movi: Move immediate into register. Usage: `movi [Register] [Value]` Analog: `A = 1`
+- movi: Move value in second register into first register. Usage: `mov [Register A] [Register B]` Analog: `A = B`
 - addi: Add immediate to register and store in register. Sets overflow flag if result is greater than 15. `addi [Register] [Value]` Analog: `A = A + 1`
 - stoi: Store immediate into memory at address in register. Usage: `stoi [Register] [Value]` Analog: `*A = 1`
 - sto: Store value in second register into memory at address in first register. Usage: `stoi [Register A] [Register B]` Analog: `*A = *B`

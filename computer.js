@@ -95,7 +95,11 @@ function Computer()
 		switch(instructionArr[0])
 		{
 			case "movi":
-				this.setRegister(instructionArr[1], parseInt(instructionArr[2]));
+				this.setRegister(instructionArr[1], instructionArr[2]);
+				this.incrementPC();
+				break;
+			case "mov":
+				this.setRegister(instructionArr[1], this.registers[instructionArr[2]]);
 				this.incrementPC();
 				break;
 			case "add":
