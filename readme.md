@@ -57,7 +57,7 @@ sto A A
 - movi: Move value in second register into first register. Usage: `mov [Register A] [Register B]` Analog: `A = B`
 - addi: Add immediate to register and store in register. Sets overflow flag if result is greater than 15. `addi [Register] [Value]` Analog: `A = A + 1`
 - stoi: Store immediate into memory at address in register. Usage: `stoi [Register] [Value]` Analog: `*A = 1`
-- sto: Store value in second register into memory at address in first register. Usage: `stoi [Register A] [Register B]` Analog: `*A = *B`
+- sto: Store value in second register into memory at address in first register. Usage: `stoi [Register A] [Register B]` Analog: `*A = B`
 - subi: Subtrack immediate from register and store in register. Sets underflow flag if result is less than 0. Usage: `subi [Register] [Value]` Analog: `A = A - 1`
 - muli: Multiply by immediate. Result is stored in HIGH:LOW. Usage: `muli [Register] [Value]`
 - add: Add two registers and store in first register. Sets overflow flag if result is greater than 15. Usage: `add [Register A] [Register B]` Analog: `A = A + B`
