@@ -44,16 +44,12 @@ Draw all the colors to the screen:
 ```
 movi MB 15
 movi A 0
-movi B 0
 movi C 15
-movi D 0
-sto A B
+sto A A
 addi A 1
-addi B 1
-subi C 1
-cmp C D
-bneqi 5
-sto A B
+cmp A C
+bneqi 3
+sto A A
 ```
 
 ## Instruction Set (So Far)
