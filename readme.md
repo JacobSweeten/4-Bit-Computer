@@ -1,5 +1,7 @@
 # 4-Bit Computer
 
+Check it out at [https://jacobsweeten.github.io/4-Bit-Computer/](https://jacobsweeten.github.io/4-Bit-Computer/)
+
 ## Example Code:
 The following code draws Sonic (Sort of):
 ```
